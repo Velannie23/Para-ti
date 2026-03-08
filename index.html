@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+<meta charset="UTF-8">
+<title>Un millón de sueños contigo ❤️</title>
+
+<style>
+
+*{
+box-sizing:border-box;
+}
+
+body{
+margin:0;
+height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+font-family:'Segoe UI', sans-serif;
+background:linear-gradient(#06142b,#000);
+color:white;
+overflow:hidden;
+text-align:center;
+}
+
+/* estrellas pequeñas */
+
+.stars{
+position:absolute;
+width:100%;
+height:100%;
+top:0;
+left:0;
+z-index:0;
+}
+
+.star{
+position:absolute;
+width:2px;
+height:2px;
+background:white;
+border-radius:50%;
+animation:fall linear infinite;
+}
+
+@keyframes fall{
+0%{transform:translateY(-10px);opacity:1;}
+100%{transform:translateY(100vh);opacity:0;}
+}
+
+/* estrellas fugaces descendentes */
+
+.shooting-star{
+position:absolute;
+top:-50px;
+width:350px;
+height:3px;
+background:linear-gradient(90deg,#00eaff,rgba(0,255,255,0));
+border-radius:50%;
+filter:drop-shadow(0 0 6px #00eaff) drop-shadow(0 0 20px #00eaff);
+transform:rotate(-35deg);
+pointer-events:none;
+animation:shoot linear forwards;
+}
+
+@keyframes shoot{
+
+0%{
+transform:translateY(0) translateX(0) rotate(-35deg);
+opacity:1;
+}
+
+100%{
+transform:translateY(120vh) translateX(300px) rotate(-35deg);
+opacity:0;
+}
+
+}
+
+/* contenedor */
+
+.container{
+position:relative;
+z-index:2;
+max-width:600px;
+width:90%;
+padding:25px;
+background:rgba(0,0,0,0.35);
+border-radius:20px;
+}
+
+/* imagen */
+
+.anime{
+width:100%;
+max-width:300px;
+height:auto;
+border-radius:15px;
+box-shadow:0 0 20px rgba(255,255,255,0.5);
+}
+
+/* texto */
+
+.texto{
+margin-top:20px;
+font-size:20px;
+min-height:120px;
+line-height:1.6;
+}
+
+/* corazones */
+
+.heart{
+position:absolute;
+color:#ff6b81;
+font-size:20px;
+animation:float 6s linear infinite;
+}
+
+@keyframes float{
+0%{transform:translateY(100vh);opacity:1;}
+100%{transform:translateY(-10vh);opacity:0;}
+}
+
+/* botón */
+
+button{
+margin-top:15px;
+padding:10px 20px;
+border:none;
+border-radius:10px;
+background:#ff6b81;
+color:white;
+font-size:16px;
+cursor:pointer;
+}
+
+button:hover{
+background:#ff4f6d;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="stars" id="stars"></div>
+
+<div class="container">
+
+<img class="anime" src="anime-girl.jpg">
+
+<div class="texto" id="texto"></div>
+
+<button onclick="playMusic()">Escuchar nuestro sueño ❤️</button>
+
+</div>
+
+<audio id="music" loop>
+<source src="a million dreams.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+
+/* estrellas pequeñas */
+
+const starsContainer=document.getElementById("stars");
+
+for(let i=0;i<120;i++){
+
+let star=document.createElement("div");
+star.className="star";
+
+star.style.left=Math.random()*100+"%";
+star.style.animationDuration=(Math.random()*3+2)+"s";
+star.style.animationDelay=Math.random()*5+"s";
+
+starsContainer.appendChild(star);
+
+}
+
+/* estrellas fugaces descendentes */
+
+function crearEstrellaFugaz(){
+
+const star=document.createElement("div");
+star.className="shooting-star";
+
+star.style.left=Math.random()*100+"vw";
+star.style.animationDuration=(Math.random()*1.5+1.5)+"s";
+
+document.body.appendChild(star);
+
+setTimeout(()=>{
+star.remove();
+},3000);
+
+}
+
+setInterval(crearEstrellaFugaz,900);
+
+/* corazones */
+
+setInterval(()=>{
+let heart=document.createElement("div");
+heart.className="heart";
+heart.innerHTML="❤";
+heart.style.left=Math.random()*100+"%";
+
+document.body.appendChild(heart);
+
+setTimeout(()=>{heart.remove();},6000);
+
+},900);
+
+/* texto escribiéndose */
+
+const mensaje=`Cuando miro el cielo lleno de estrellas,
+pienso en todos los sueños que existen en el universo.
+
+Pero entre millones de sueños posibles,
+el más hermoso fue haberte conocido.
+
+Porque desde que llegaste a mi vida,
+cada sueño parece tener tu nombre.
+
+Gracias por existir en mi mundo. ❤️`;
+
+let i=0;
+
+function escribir(){
+if(i<mensaje.length){
+document.getElementById("texto").innerHTML+=mensaje.charAt(i);
+i++;
+setTimeout(escribir,40);
+}
+}
+
+escribir();
+
+/* música */
+
+function playMusic(){
+document.getElementById("music").play();
+}
+
+</script>
+
+</body>
+</html>
